@@ -58,6 +58,9 @@ Also needs a **Personal Automation** trigger: Shortcuts app → Automation tab �
   - Added to Claude: `claude mcp add --transport stdio mirroir -- npx -y mirroir-mcp`
   - Permissions file: `~/.mirroir-mcp/permissions.json`
   - To use: make sure iPhone Mirroring is open and unlocked, then ask Claude to control it
+  - **Known limitation:** Blue ">" circle/arrow buttons in Shortcuts action configs are completely unresponsive to mirroir taps — have Bryan tap these manually on the phone
+  - **Known limitation:** `Save File` destination picker (the ">" next to "Shortcuts") also needs manual tap
+  - Coordinate space: 326×720 points; `describe_screen` and `tap` are 1:1
 
 ## User preferences
 
