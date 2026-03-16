@@ -1,0 +1,7 @@
+.build/
+*.o
+*.d
+.swp
+token.json
+*.enc
+.env

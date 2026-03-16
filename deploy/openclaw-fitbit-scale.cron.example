@@ -1,0 +1,5 @@
+SHELL=/bin/bash
+PATH=/usr/local/bin:/usr/bin:/bin
+
+# Run every day at 8:05 AM server time.
+5 8 * * * cd /opt/fitbit-scale && /usr/bin/env swift run fitbit-scale-exporter export --client-id YOUR_FITBIT_CLIENT_ID --token-file /opt/fitbit-scale/token.json --output /var/www/fitbit/latest-weight.json --weight-unit pounds --latest-only >> /var/log/fitbit-scale-exporter.log 2>&1
