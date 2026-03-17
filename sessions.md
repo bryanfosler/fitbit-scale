@@ -21,3 +21,23 @@
 - Use `value` field (pounds) for Apple Health logging per user preference
 - Backfill covers the exact gap: Sept 8, 2025 → Feb 14, 2026 (day before existing data resumes)
 - Dedup file path: `iCloud Drive/Shortcuts/fitbit-last-log-id.txt` (no leading slash in Save File)
+
+---
+
+## Session 2 — Community guide and public scripts
+
+**Date:** 03.16.2026
+**Time spent:** ~15m
+
+### What We Built
+- `GUIDE.md` — complete end-to-end setup guide for Fitbit → Apple Health (public-facing)
+- `oauth_bootstrap.py` — Python PKCE OAuth bootstrap, no deps, opens browser and captures callback
+- Added `fitbit_export.py` and `fitbit_backfill.py` to repo (were Pi-only before)
+- Reddit post draft at `~/Documents/Claude/Drafts/iOS-Shortcuts-Magic-Variable-Type-Bug/Reddit-Fitbit-Guide.md`
+
+### What Shipped
+- All 4 scripts committed and pushed to `bryanfosler/fitbit-scale`
+
+### Decisions Made
+- Targeting r/fitbit + r/shortcuts for the post
+- Shortcut iCloud links pending — Bryan needs to update URLs and export from phone before posting
