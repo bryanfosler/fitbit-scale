@@ -117,13 +117,18 @@ def build_payload(entries):
     for e in entries:
         ts = datetime.fromisoformat(f"{e['date']}T{e['time']}").replace(tzinfo=timezone.utc).isoformat()
         value = e["weight"]
-        weights.append({
+        entry = {
             "logID": str(e["logId"]),
             "timestamp": ts,
             "value": value,
             "kilograms": to_kg(value, WEIGHT_UNIT),
             "source": e.get("source"),
-        })
+        }
+        if "fat" in e:
+            entry["fatPercent"] = e["fat"]
+        if "bmi" in e:
+            entry["bmi"] = e["bmi"]
+        weights.append(entry)
 
     if LATEST_ONLY and weights:
         weights = [weights[-1]]
