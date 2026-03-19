@@ -23,7 +23,9 @@ Pulls weight data from the Fitbit API and writes it into Apple Health via an iPh
       "logID": "1234567890",
       "source": "Aria",
       "timestamp": "2026-03-15T12:01:00Z",
-      "value": 180.0
+      "value": 180.0,
+      "fatPercent": 15.746,
+      "bmi": 22.54
     }
   ]
 }
@@ -32,6 +34,9 @@ Pulls weight data from the Fitbit API and writes it into Apple Health via an iPh
 - `value` = weight in **pounds** (use this for Apple Health logging)
 - `kilograms` = converted value (not used in shortcut)
 - `logID` = Fitbit's unique ID for each weigh-in, used for deduplication
+- `fatPercent` = body fat % (e.g. `15.746`) — only present when Aria measured it (absent on manual entries)
+- `bmi` = body mass index — only present when Aria measured it
+- **HealthKit unit for body fat:** divide `fatPercent` by 100 before logging (HealthKit expects 0–1 decimal, not 0–100)
 
 ## Shortcuts built so far
 

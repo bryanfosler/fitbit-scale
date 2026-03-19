@@ -41,3 +41,24 @@
 ### Decisions Made
 - Targeting r/fitbit + r/shortcuts for the post
 - Shortcut iCloud links pending — Bryan needs to update URLs and export from phone before posting
+
+---
+
+## Session 3 — Add body fat % and BMI to export
+
+**Date:** 03.19.2026
+**Time spent:** ~20m
+
+### What We Built
+- `fatPercent` and `bmi` fields added to `fitbit_export.py` payload (conditionally — only present when scale measured them)
+
+### What Shipped
+- `fitbit_export.py` updated on Pi and committed to `bryanfosler/fitbit-scale` (`f4181b9`)
+- GitHub issue #4 created as open Notion item for the Shortcut update
+
+### Bugs Fixed
+- `build_payload()` was dropping Fitbit Aria body composition data silently — Fitbit API returns `fat` and `bmi` in weight log entries but the script never included them
+
+### Decisions Made
+- Conditional inclusion (`if "fat" in e`) rather than `.get()` → field absent vs null when not measured, cleaner for Shortcut parsing
+- Shortcut update is an open item (issue #4) — HealthKit expects 0–1 decimal for body fat %, so divide by 100 before logging
