@@ -15,7 +15,7 @@ These steps use the action names shown in the current Shortcuts app on recent iO
 3. Tap the title area at the top and name it `Fitbit Weight Backfill`.
 4. Tap `Add Action`.
 5. Search for `Get Contents of URL` and add it.
-6. Tap the URL field and enter `http://100.99.74.37:8766/backfill-weights.json`.
+6. Tap the URL field and enter `http://YOUR_PI_TAILSCALE_IP:8766/backfill-weights.json`.
 7. Leave the method as `GET`.
 8. Tap `Search Actions`.
 9. Search for `Get Dictionary from Input` and add it.

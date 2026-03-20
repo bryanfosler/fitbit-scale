@@ -8,8 +8,8 @@ Pulls weight data from the Fitbit API and writes it into Apple Health via an iPh
 
 ## Key URLs
 
-- Latest weight endpoint: `http://100.99.74.37:8766/latest-weight.json` (Tailscale, requires Tailscale connected on iPhone)
-- Backfill endpoint: `http://100.99.74.37:8766/backfill-weights.json`
+- Latest weight endpoint: `http://YOUR_PI_TAILSCALE_IP:8766/latest-weight.json` (Tailscale, requires Tailscale connected on iPhone)
+- Backfill endpoint: `http://YOUR_PI_TAILSCALE_IP:8766/backfill-weights.json`
 
 ## JSON format from the server
 

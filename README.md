@@ -141,7 +141,7 @@ swift run fitbit-scale-exporter export \
   --latest-only
 ```
 
-An OpenClaw cron example lives at [openclaw-fitbit-scale.cron.example](/Users/bryan/Documents/Codex/Fitbit%20Scale/deploy/openclaw-fitbit-scale.cron.example).
+An OpenClaw cron example lives at [openclaw-fitbit-scale.cron.example](deploy/openclaw-fitbit-scale.cron.example).
 
 ## Suggested Shortcut flow
 
@@ -168,8 +168,8 @@ That keeps Apple Health from getting duplicate writes if the same JSON file is r
 
 ## Automation examples
 
-- A macOS `launchd` example lives at [com.bryan.fitbit-scale-exporter.plist.example](/Users/bryan/Documents/Codex/Fitbit%20Scale/LaunchAgents/com.bryan.fitbit-scale-exporter.plist.example).
-- An OpenClaw cron example lives at [openclaw-fitbit-scale.cron.example](/Users/bryan/Documents/Codex/Fitbit%20Scale/deploy/openclaw-fitbit-scale.cron.example).
+- A macOS `launchd` example lives at [com.bryan.fitbit-scale-exporter.plist.example](LaunchAgents/com.bryan.fitbit-scale-exporter.plist.example).
+- An OpenClaw cron example lives at [openclaw-fitbit-scale.cron.example](deploy/openclaw-fitbit-scale.cron.example).
 
 ## Assumptions and caveats
 

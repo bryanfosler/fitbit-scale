@@ -15,16 +15,16 @@
         <string>--client-id</string>
         <string>YOUR_FITBIT_CLIENT_ID</string>
         <string>--token-file</string>
-        <string>/Users/bryan/.fitbit-scale-sync/token.json</string>
+        <string>~/.fitbit-scale-sync/token.json</string>
         <string>--output</string>
-        <string>/Users/bryan/Library/Mobile Documents/com~apple~CloudDocs/FitbitScale/latest-weight.json</string>
+        <string>~/Library/Mobile Documents/com~apple~CloudDocs/FitbitScale/latest-weight.json</string>
         <string>--weight-unit</string>
         <string>pounds</string>
         <string>--latest-only</string>
     </array>
 
     <key>WorkingDirectory</key>
-    <string>/Users/bryan/Documents/Codex/Fitbit Scale</string>
+    <string>/path/to/fitbit-scale</string>
 
     <key>StartCalendarInterval</key>
     <dict>
@@ -35,9 +35,9 @@
     </dict>
 
     <key>StandardOutPath</key>
-    <string>/Users/bryan/Library/Logs/fitbit-scale-exporter.log</string>
+    <string>~/Library/Logs/fitbit-scale-exporter.log</string>
 
     <key>StandardErrorPath</key>
-    <string>/Users/bryan/Library/Logs/fitbit-scale-exporter.log</string>
+    <string>~/Library/Logs/fitbit-scale-exporter.log</string>
 </dict>
 </plist>
