@@ -1,5 +1,33 @@
 # Fitbit Scale — Session Log
 
+## Session 6 — Body fat % backfill + daily sync shortcut debugging
+
+**Date:** 03.21.2026
+**Time spent:** ~2h30m
+
+### What We Built
+- Updated `fitbit_backfill.py` to include `fatPercent` and `bmi` in JSON output (were silently dropped before)
+- Updated start date to Sept 17 and end date to dynamic `datetime.now()`
+- Body Fat % Backfill automation shortcut: body-comp-only (no weight to avoid dupes), with `Set Variable fatPct` pattern to avoid Dictionary Value ambiguity
+- Rewrote daily sync shortcut doc with full visual diagram and `Set Variable` pattern for all key values
+
+### What Shipped
+- `fitbit_backfill.py` updated and pushed to Pi + committed
+- Body fat % backfill ran successfully — 153 entries from Sept 17 2025 to present logged to Health
+- Shortcut docs updated with lessons learned (no ÷100, Set Variable pattern, Item from List workarounds)
+
+### Bugs Fixed
+- **`fatPercent` and `bmi` missing from backfill JSON** — `build_payload()` never included them; added conditional `if "fat" in e` / `if "bmi" in e`
+- **Body fat logging 0%** — shortcut was using `÷ 100` on raw percent value; Shortcuts handles `%` unit conversion internally, pass raw value (15.746 not 0.15746)
+- **Body fat logging 22% (BMI value)** — Dictionary Value ambiguity; `Get Value for bmi` output overwrote `Dictionary Value`, so body fat Log Health Sample used BMI value. Fix: `Set Variable fatPct` immediately after `Get Value for fatPercent`
+
+### Decisions Made
+- Body comp backfill runs as body-comp-only (no weight logging) to avoid duplicating existing weight data
+- Use `Set Variable` after every `Get Value` to avoid Dictionary Value magic variable collisions
+- Daily sync weight issue (0 lbs) still unresolved — continuing next session
+
+---
+
 ## Session 5 — Complete Daily Weight Sync shortcut (BMI + body fat %)
 
 **Date:** 03.21.2026
