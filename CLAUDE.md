@@ -40,20 +40,13 @@ Pulls weight data from the Fitbit API and writes it into Apple Health via an iPh
 
 ## Shortcuts built so far
 
-### Fitbit Weight Backfill (COMPLETE)
-One-time importer. Fetches `backfill-weights.json`, loops through all entries, logs each to Apple Health in lb. See `FITBIT_WEIGHT_BACKFILL_SHORTCUT.md` for full build steps.
+### Fitbit Weight Backfill (NEEDS REBUILD)
+One-time importer. Fetches `backfill-weights.json`, loops through all entries. Now needs to also log body fat % and BMI. See `Fitbit-Weight-Backfill-Shortcut-03.16.2026.md` for full build steps.
 
-### Fitbit Daily Weight Sync (IN PROGRESS)
-Daily automation. Fetches `latest-weight.json`, checks if logID is new (dedup via `iCloud Drive/Shortcuts/fitbit-last-log-id.txt`), logs weight to Apple Health in lb, saves logID.
+### Fitbit Daily Weight Sync (NEEDS BUILD)
+Daily automation. Fetches `latest-weight.json`, dedupes via logID, logs weight + body fat % + BMI to Apple Health. See `Fitbit-Daily-Weight-Sync-Shortcut-03.16.2026.md` for full build steps.
 
-**Status:** Shortcut partially built on iPhone. URL fixed to `latest-weight.json`. Still needs:
-1. `Get Value for Key` → key: `value` → input: Item from List
-2. `Get Value for Key` → key: `timestamp` → input: Item from List
-3. `Get Dates from Input` → input: timestamp Value
-4. `Log Health Sample` → Type: Weight, Value: value (lbs), Unit: lb, Date: Date
-5. `Save File` → logID → iCloud Drive/Shortcuts/fitbit-last-log-id.txt → Overwrite ON
-
-Also needs a **Personal Automation** trigger: Shortcuts app → Automation tab → Time of Day → Daily → Run Shortcut → "Fitbit Daily Weight Sync" → Ask Before Running: OFF
+Both shortcuts use a single flat `If` block for dedup (no nested Ifs) and conditional `If has any value` checks for optional fatPercent/bmi fields.
 
 ## iOS / tooling notes
 

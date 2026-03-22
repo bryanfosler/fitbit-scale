@@ -1,14 +1,12 @@
 # Fitbit Weight Backfill Shortcut
 
-This Shortcut is a one-time importer from a Tailscale-reachable JSON endpoint into Apple Health.
+This Shortcut is a one-time importer from a Tailscale-reachable JSON endpoint into Apple Health. It logs weight, body fat %, and BMI for each entry that has them.
 
 ## Shortcut name
 
 `Fitbit Weight Backfill`
 
 ## Build on iPhone
-
-These steps use the action names shown in the current Shortcuts app on recent iOS releases.
 
 1. Open `Shortcuts` on iPhone.
 2. Tap `+` to create a new shortcut.
@@ -17,53 +15,65 @@ These steps use the action names shown in the current Shortcuts app on recent iO
 5. Search for `Get Contents of URL` and add it.
 6. Tap the URL field and enter `http://YOUR_PI_TAILSCALE_IP:8766/backfill-weights.json`.
 7. Leave the method as `GET`.
-8. Tap `Search Actions`.
-9. Search for `Get Dictionary from Input` and add it.
-10. Tap `Search Actions`.
-11. Search for `Get Value for Key` and add it.
-12. In that action, set the key to `weights`.
-13. Confirm the input is the dictionary from the previous action.
-14. Tap `Search Actions`.
-15. Search for `Repeat with Each` and add it.
-16. Make sure `Repeat with Each` uses the `weights` value from step 12 as its input list.
-17. Inside the `Repeat` block, tap `Search Actions`.
-18. Search for `Get Value for Key` and add it.
-19. Set that key to `value`.
-20. Set its input to `Repeat Item`.
-21. Still inside the `Repeat` block, tap `Search Actions`.
-22. Search for `Get Value for Key` and add a second copy.
-23. Set that key to `timestamp`.
-24. Set its input to `Repeat Item`.
-25. Still inside the `Repeat` block, tap `Search Actions`.
-26. Search for `Get Dates from Input` and add it.
-27. Set its input to the `timestamp` value from step 23.
-28. Still inside the `Repeat` block, tap `Search Actions`.
-29. Search for `Log Health Sample` and add it.
-30. Set `Type` to `Weight`.
-31. Set `Value` to the `value` output from step 19.
-32. Set `Unit` to `lb`.
-33. Set `Date` to the `Date` output from step 27.
-34. Leave the `Repeat` block in place and tap `Done`.
+8. Add `Get Dictionary from Input`. Input: `Contents of URL`.
+9. Add `Get Value for Key`. Key: `weights`. Input: `Dictionary`.
+10. Add `Repeat with Each`. Input: `Dictionary Value` (weights list).
+
+**Inside the `Repeat` block:**
+
+11. Add `Get Value for Key`. Key: `value`. Input: `Repeat Item`.
+12. Add `Get Value for Key`. Key: `timestamp`. Input: `Repeat Item`.
+13. Add `Get Dates from Input`. Input: `timestamp` Dictionary Value.
+14. Add `Log Health Sample`.
+    Type: `Weight`, Value: `value` Dictionary Value, Unit: `lb`, Date: `Dates from Input`.
+
+15. Add `Get Value for Key`. Key: `fatPercent`. Input: `Repeat Item`.
+16. Add `If`. Condition: `Dictionary Value` (fatPercent) `has any value`.
+17. Inside that `If`, add `Calculate`.
+    Input: `Dictionary Value` (fatPercent), Operation: `÷`, Operand: `100`.
+18. Inside that `If`, add `Log Health Sample`.
+    Type: `Body Fat Percentage`, Value: `Calculation Result`, Unit: `%`, Date: `Dates from Input`.
+19. `End If`.
+
+20. Add `Get Value for Key`. Key: `bmi`. Input: `Repeat Item`.
+21. Add `If`. Condition: `Dictionary Value` (bmi) `has any value`.
+22. Inside that `If`, add `Log Health Sample`.
+    Type: `Body Mass Index`, Value: `Dictionary Value` (bmi), Unit: `count`, Date: `Dates from Input`.
+23. `End If`.
+
+**End the `Repeat` block**, then tap `Done`.
+
+## Visual structure
+
+```text
+Get Contents of URL
+Get Dictionary from Input
+Get Value for Key (weights)
+Repeat with Each
+  Get Value for Key (value)
+  Get Value for Key (timestamp)
+  Get Dates from Input
+  Log Health Sample (Weight, lb)
+  Get Value for Key (fatPercent)
+  If fatPercent has any value
+    Calculate (÷ 100)
+    Log Health Sample (Body Fat Percentage, %)
+  End If
+  Get Value for Key (bmi)
+  If bmi has any value
+    Log Health Sample (Body Mass Index, count)
+  End If
+End Repeat
+```
 
 ## Import and permissions
 
-1. Before running the shortcut, make sure `Tailscale` is connected on your iPhone.
+1. Make sure `Tailscale` is connected on your iPhone before running.
 2. Run the shortcut once from the Shortcuts app.
 3. If prompted, allow:
-   - network access for the URL fetch
-   - Health access to write `Weight`
-4. Open the `Health` app after the run and confirm the imported entries appear under weight.
-
-## Export as a file from iPhone
-
-Once you build and test it, you can export it for reuse:
-
-1. Open the shortcut in `Shortcuts`.
-2. Tap the shortcut name or share menu.
-3. Choose the export/share option.
-4. In `Options`, choose `File` if you want a `.shortcut` file.
-5. Save it to `Files` or `iCloud Drive`.
-6. On another iPhone, open that `.shortcut` file and tap `Add Shortcut`.
+   - Network access for the URL fetch
+   - Health access to write `Weight`, `Body Fat Percentage`, and `Body Mass Index`
+4. Open the `Health` app after the run and confirm entries appear.
 
 ## Expected JSON shape
 
@@ -72,14 +82,14 @@ Once you build and test it, you can export it for reuse:
   "weights": [
     {
       "value": 180.0,
-      "timestamp": "2026-03-15T08:28:34+00:00"
+      "timestamp": "2026-03-15T08:28:34+00:00",
+      "fatPercent": 15.746,
+      "bmi": 22.54
     }
   ]
 }
 ```
 
-## Notes
-
-- The `timestamp` value must be an ISO 8601 string so `Get Dates from Input` converts it into a Shortcuts `Date`.
-- This Shortcut is for one-time backfill only.
-- Your later daily Shortcut can separately use `latest-weight.json` and compare `logID` against a file in iCloud Drive for deduping.
+- `fatPercent` and `bmi` are optional — only present for Aria-measured weigh-ins, absent on manual entries
+- `value` is in pounds
+- HealthKit body fat expects 0–1, so divide `fatPercent` by 100 before logging

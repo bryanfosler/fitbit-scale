@@ -27,8 +27,8 @@ if ENV_FILE.exists():
 CLIENT_ID = os.environ.get("FITBIT_CLIENT_ID", "")
 CLIENT_SECRET = os.environ.get("FITBIT_CLIENT_SECRET", "")
 
-START_DATE = datetime(2025, 9, 8, tzinfo=timezone.utc)
-END_DATE = datetime(2026, 2, 14, tzinfo=timezone.utc)
+START_DATE = datetime(2025, 9, 17, tzinfo=timezone.utc)
+END_DATE = datetime.now(timezone.utc)
 
 def load_token():
     with open(TOKEN_FILE) as f:
@@ -121,13 +121,18 @@ def main():
     for e in unique:
         ts = datetime.fromisoformat(f"{e['date']}T{e['time']}").replace(tzinfo=timezone.utc).isoformat()
         value = e["weight"]
-        weights.append({
+        entry = {
             "logID": str(e["logId"]),
             "timestamp": ts,
             "value": value,
             "kilograms": to_kg(value),
             "source": e.get("source"),
-        })
+        }
+        if "fat" in e:
+            entry["fatPercent"] = e["fat"]
+        if "bmi" in e:
+            entry["bmi"] = e["bmi"]
+        weights.append(entry)
 
     payload = {
         "generatedAt": datetime.now(timezone.utc).isoformat(),

@@ -1,5 +1,27 @@
 # Fitbit Scale — Session Log
 
+## Session 4 — Make repo public, security cleanup
+
+**Date:** 03.20.2026
+**Time spent:** ~45m
+
+### What We Built
+- n/a (no new features)
+
+### What Shipped
+- Repo flipped to public on GitHub
+- Cleaned Tailscale IP → `YOUR_PI_TAILSCALE_IP` in `CLAUDE.md` and backfill shortcut doc
+- Fixed absolute local paths → relative/generic in `README.md` and plist.example
+
+### Bugs Fixed
+- n/a
+
+### Decisions Made
+- Single public repo rather than private/public fork — personal config belongs in `.env`, not code
+- Git history was clean (no committed secrets), so no squash needed before publishing
+
+---
+
 ## Session 1 — Fix Daily Weight Sync dedup bug + backfill
 
 **Date:** 03.16.2026
