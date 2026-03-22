@@ -1,5 +1,27 @@
 # Fitbit Scale — Session Log
 
+## Session 5 — Complete Daily Weight Sync shortcut (BMI + body fat %)
+
+**Date:** 03.21.2026
+**Time spent:** ~30m
+
+### What We Built
+- n/a (no new code — shortcut fixes on iPhone)
+
+### What Shipped
+- "Fitbit Daily Weight Sync" shortcut fully working: weight + body fat % + BMI all logging to Apple Health
+- BMI `If` block restructured: `Get Value for bmi in entry` moved above the `If` so the condition correctly references it
+- Confirmed `Dictionary... count` unit for BMI is correct (HealthKit uses "count" for dimensionless values)
+
+### Bugs Fixed
+- **BMI If block condition was broken (red reference):** `Get Value for bmi` was inside the If, so the If's `Dictionary Value` condition referenced the wrong (previous) action's output. Fix: drag `Get Value for bmi` above the If so the If's condition sees the correct bmi Dictionary Value.
+- **BMI Log Health Sample showed "count" as unit:** This looked like an error but is correct — HealthKit represents BMI as dimensionless (no unit), which Shortcuts displays as "count".
+
+### Decisions Made
+- No divide-by-100 on body fat %: pass raw value (e.g. 15.746) with `%` unit — Shortcuts handles the conversion internally
+
+---
+
 ## Session 4 — Make repo public, security cleanup
 
 **Date:** 03.20.2026

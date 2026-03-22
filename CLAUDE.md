@@ -40,10 +40,10 @@ Pulls weight data from the Fitbit API and writes it into Apple Health via an iPh
 
 ## Shortcuts built so far
 
-### Fitbit Weight Backfill (NEEDS REBUILD)
-One-time importer. Fetches `backfill-weights.json`, loops through all entries. Now needs to also log body fat % and BMI. See `Fitbit-Weight-Backfill-Shortcut-03.16.2026.md` for full build steps.
+### Fitbit Weight Backfill (COMPLETE)
+One-time importer. Fetches `backfill-weights.json`, loops through all entries. Logs weight, body fat %, and BMI. See `Fitbit-Weight-Backfill-Shortcut-03.16.2026.md` for full build steps.
 
-### Fitbit Daily Weight Sync (NEEDS BUILD)
+### Fitbit Daily Weight Sync (COMPLETE)
 Daily automation. Fetches `latest-weight.json`, dedupes via logID, logs weight + body fat % + BMI to Apple Health. See `Fitbit-Daily-Weight-Sync-Shortcut-03.16.2026.md` for full build steps.
 
 Both shortcuts use a single flat `If` block for dedup (no nested Ifs) and conditional `If has any value` checks for optional fatPercent/bmi fields.
