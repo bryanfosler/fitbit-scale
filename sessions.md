@@ -1,5 +1,27 @@
 # Fitbit Scale — Session Log
 
+## Session 7 — Daily Weight Sync shortcut — weight 0 lbs fix
+
+**Date:** 03.21.2026
+**Time spent:** ~30m
+
+### What We Built
+- n/a (shortcut fixes on iPhone)
+
+### What Shipped
+- Fitbit Daily Weight Sync shortcut fully working: weight + body fat % + BMI all logging to Apple Health correctly
+
+### Bugs Fixed
+- **Weight logging 0 lbs ("couldn't convert Text to Number"):** `Get Item at Index 1 from List` had empty `List` input — should be `weight LBS` (the weights array). Log Health Sample Weight value was set to `weight LBS` (the full array, not a number).
+- **Duplicate `Get Value for value` action:** A second `Get Value for value in weight LBS` action was placed after `Get dates`, overwriting Dictionary Value with the array before the Log Health Sample.
+- **`Get Value for bmi` reading wrong variable:** Was set to `weight LBS` instead of `Item from List`.
+- **3 orphaned actions outside the `If` block:** Get file, Get text, Save text were duplicated below `End If` and needed to be deleted.
+
+### Decisions Made
+- No structural changes — shortcut logic was correct, just input references needed fixing
+
+---
+
 ## Session 6 — Body fat % backfill + daily sync shortcut debugging
 
 **Date:** 03.21.2026
@@ -134,3 +156,48 @@
 ### Decisions Made
 - Conditional inclusion (`if "fat" in e`) rather than `.get()` → field absent vs null when not measured, cleaner for Shortcut parsing
 - Shortcut update is an open item (issue #4) — HealthKit expects 0–1 decimal for body fat %, so divide by 100 before logging
+
+---
+
+## Session 9 — Rename costclaw → token-dash in OpenClaw plugin
+
+**Date:** 03.24.2026
+**Time spent:** ~45m
+
+### What We Built
+- n/a (Pi admin / refactor work)
+
+### What Shipped
+- All `costclaw` / `costclaw-safe` references removed from `token-dash` plugin on Pi
+- Plugin id confirmed as `token-dash`, tool names updated to `token_dash_status` / `token_dash_dashboard`
+- TypeScript source + dist rebuilt clean with no `costclaw` strings remaining
+- `openclaw.json`, `cron/jobs.json` updated; DB path updated to `token-tracker.db`
+
+### Bugs Fixed
+- **Mac-origin file ownership (UID 501/staff):** `token-dash/src` and `dist` files were copied from Mac and kept macOS ownership — neither `piper` nor `bfosler` could write them. Fixed with `sudo chown -R bfosler:bfosler /home/piper/token-dash`
+- **`CostClawConfig` → `Token TrackerConfig` (space in TypeScript identifier):** `s/CostClaw/Token Tracker/g` sed pattern replaced interface names too, breaking tsc. Fixed by running `s/Token Tracker/TokenTracker/g` on src files, then restoring display strings in `dashboard-html.ts`
+
+### Decisions Made
+- Plugin id stays `token-dash` (already set in manifest); internal db/tool names use `token-tracker` / `token_dash` pattern
+- `openclaw.json` was already deleted (prior cleanup) — no active config file needed updating
+
+---
+
+## Session 8 — Codex App vs Terminal + GSD Command Routing Clarified
+
+**Date:** 03.23.2026
+**Time spent:** ~15m
+
+### What We Built
+- Clarified how to use Codex app vs terminal workflows
+- Confirmed available GSD and wrap-up command paths in this environment
+- Verified `gsd-next` shell invocation behavior and fallback path
+
+### What Shipped
+- No repo code shipped in Fitbit Scale during this session
+
+### Bugs Fixed
+- n/a
+
+### Decisions Made
+- Use skill-style GSD commands in this environment when shell shims are unavailable
